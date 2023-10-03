@@ -1,14 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>REST API</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
-    <div id="app">{{ message }}</div>
+    <!--  v-cloak   =  if something isn't ready then don't display it 
+        (for the list of contacts)-->
+    <div class="container pt-3" id="app" v-cloak>
+        <h1>CONTACTS</h1>
+
+        <form class="form-inline mb-3" @submit.prevent="createContact">
+            <div class="form-group mr-5">
+                <label for="name" class="mr-3">Prénom</label>
+                <input type="text" class="form-control" id="name" v-model="form.name">
+            </div>
+            <div class="form-group mr-5">
+                <label for="value" class="mr-3">Value</label>
+                <input type="text" class="form-control" id="value" v-model="form.value">
+            </div>
+            <button class="btn btn-primary" type="submit">Enregistrer</button>
+        </form>
+
+        <!-- if there's anything -->
+        <div v-if="contacts.length">
+            <div class="card mb-3" v-for="contact in contacts">
+                <div class="card-body">
+                    <h5 class="card-title">{{contact.name}}</h5>
+                    <p class="card-text">{{contact.value}}</p>
+                    <button class="btn btn-primary" @click="markContact(contact.id)">Marquer</button>
+                    <button class="btn btn-danger">Supprimer</button>
+                </div>
+            </div>
+        </div>
+        <!--  if there is nothing -->
+        <p v-else>Il n'y a rien</p>
+    </div>
     <script type="module" src="frontend.js"></script>
 </body>
 
